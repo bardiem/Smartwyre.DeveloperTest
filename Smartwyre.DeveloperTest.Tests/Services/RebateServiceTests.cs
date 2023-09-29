@@ -78,10 +78,10 @@ public class RebateServiceTests
     }
 
     [Theory]
-    [InlineData(IncentiveType.FixedCashAmount)]
-    [InlineData(IncentiveType.FixedRateRebate)]
-    [InlineData(IncentiveType.AmountPerUom)]
-    public void Calculate_ShoultReturnFalse_WhenRebateNotFound(IncentiveType incentiveType)
+    [InlineData(SupportedIncentiveType.FixedCashAmount)]
+    [InlineData(SupportedIncentiveType.FixedRateRebate)]
+    [InlineData(SupportedIncentiveType.AmountPerUom)]
+    public void Calculate_ShoultReturnFalse_WhenRebateNotFound(SupportedIncentiveType incentiveType)
     {
         // Arrange
         _rebateDataMock
@@ -92,7 +92,7 @@ public class RebateServiceTests
             .Setup(p => p.GetProduct(It.Is<string>(x => x == ProductIdentifier)))
             .Returns(new Product
             {
-                SupportedIncentives = SupportedIncentiveType.AmountPerUom,
+                SupportedIncentives = incentiveType,
             });
 
         var request = new CalculateRebateRequest

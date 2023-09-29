@@ -6,7 +6,7 @@ using System.Linq;
 
 namespace Smartwyre.DeveloperTest.Factories;
 
-public class RebateCalculatorFactory
+internal sealed class RebateCalculatorFactory
 {
     private static Dictionary<IncentiveType, IRebateCalculator> _rebateCalculators = new Dictionary<IncentiveType, IRebateCalculator>();
 

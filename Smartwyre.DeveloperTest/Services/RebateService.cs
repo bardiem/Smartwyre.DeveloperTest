@@ -4,7 +4,7 @@ using Smartwyre.DeveloperTest.Types;
 
 namespace Smartwyre.DeveloperTest.Services;
 
-public class RebateService : IRebateService
+public sealed class RebateService : IRebateService
 {
     private readonly RebateDataStore _rebateData;
     private readonly ProductDataStore _productData;

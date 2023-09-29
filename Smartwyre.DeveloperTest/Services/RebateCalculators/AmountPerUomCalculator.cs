@@ -2,29 +2,25 @@
 
 namespace Smartwyre.DeveloperTest.Services.RebateCalculators;
 
-internal class AmountPerUomCalculator : IRebateCalculator
+internal sealed class AmountPerUomCalculator : IRebateCalculator
 {
-    private const IncentiveType Type = IncentiveType.AmountPerUom;
-
-    public IncentiveType IncentiveType => Type;
+    public IncentiveType IncentiveType => IncentiveType.AmountPerUom;
 
     public CalculateRebateResult Calculate(CalculateRebateRequest request, Rebate rebate, Product product)
     {
         var result = new CalculateRebateResult();
 
-        if (!product.SupportedIncentives.HasFlag(SupportedIncentiveType.AmountPerUom))
+        var incentiveTypeIsNotSupported = !product.SupportedIncentives.HasFlag(SupportedIncentiveType.AmountPerUom);
+        var rebateAmountIsIncorrect = rebate.Amount <= 0 || request.Volume <= 0;
+
+        if (incentiveTypeIsNotSupported || rebateAmountIsIncorrect)
         {
             result.Success = false;
+            return result;
         }
-        else if (rebate.Amount == 0 || request.Volume == 0)
-        {
-            result.Success = false;
-        }
-        else
-        {
-            result.RebateAmount = rebate.Amount * request.Volume;
-            result.Success = true;
-        }
+        
+        result.RebateAmount = rebate.Amount * request.Volume;
+        result.Success = true;
 
         return result;
     }
